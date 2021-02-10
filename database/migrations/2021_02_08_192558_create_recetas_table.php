@@ -12,7 +12,7 @@ class CreateRecetasTable extends Migration
      * @return void
      */
     public function up()
-    {        
+    {
         Schema::create('categoria_receta', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
@@ -38,7 +38,7 @@ class CreateRecetasTable extends Migration
      */
     public function down()
 
-    {   
+    {
         Schema::dropIfExists('recetas');
         Schema::dropIfExists('categoria_receta');
     }
