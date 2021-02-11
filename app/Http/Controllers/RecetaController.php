@@ -172,6 +172,7 @@ class RecetaController extends Controller
      */
     public function destroy(Receta $receta)
     {
+
         //verificar que es usuario autenticado
         $this->authorize('delete', $receta);
 

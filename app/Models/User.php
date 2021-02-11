@@ -23,6 +23,18 @@ class User extends Authenticatable
         'url',
     ];
 
+    //evento cuando se crea un usuario
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        //asiganr perfil cuando se haya creado
+        static::created(function ($user) {
+            $user->perfil()->create();
+        });
+    }
+
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -47,5 +59,12 @@ class User extends Authenticatable
     public function recetas()
     {
         return $this->hasMany(Receta::class);
+    }
+
+    //relacion de usuarioo a perfil
+
+    public function perfil()
+    {
+        return $this->hasOne(Perfil::class);
     }
 }
