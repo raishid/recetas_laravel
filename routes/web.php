@@ -21,6 +21,8 @@ Route::get('/recetas/create', 'RecetaController@create')->name('recetas.create')
 Route::post('/recetas', 'RecetaController@store')->name('recetas.store');
 Route::get('/recetas/{receta}', 'RecetaController@show')->name('recetas.show');
 Route::get('/recetas/{receta}/edit', 'Recetacontroller@edit')->name('recetas.edit');
+Route::put('/recetas/{receta}', 'RecetaController@update')->name('receta.update');
+Route::delete('/recetas/{receta}', 'RecetaController@destroy')->name('receta.destroy');
 
 Auth::routes();
 

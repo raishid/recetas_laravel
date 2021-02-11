@@ -24,9 +24,9 @@ class RecetaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {   
+    {
         $recetas = auth()->user()->recetas;
-        
+
         return view('recetas.index')->with('recetas', $recetas);
     }
 
@@ -36,7 +36,7 @@ class RecetaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {   
+    {
         //obtener categoria sin modelo
         /*
         $categorias = DB::table('categoria_recetas')->get()->pluck('nombre', 'id');
@@ -53,7 +53,7 @@ class RecetaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {   
+    {
         //validacion
 
         $data = request()->validate([
@@ -66,7 +66,7 @@ class RecetaController extends Controller
 
         //guardar imagen
         $ruta_imagen = $request['imagen']->store('upload-recetas', 'public');
-        
+
         //resize imagne
         $img = Image::make(public_path("storage/$ruta_imagen"))->fit(1000, 550);
         $img->save();
@@ -112,10 +112,11 @@ class RecetaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Receta $receta)
-    {   
+    {
         $categorias = CategoriaReceta::all(['id', 'nombre']);
 
-        return view('recetas/edit')->with('categorias', $categorias);
+        return view('recetas/edit')->with('categorias', $categorias)
+                                    ->with('receta', $receta);
     }
 
     /**
@@ -127,7 +128,40 @@ class RecetaController extends Controller
      */
     public function update(Request $request, Receta $receta)
     {
-        //
+        // cumplir la autorizacion del policy
+        $this->authorize('update', $receta);
+
+        //validacion
+
+        $data = request()->validate([
+            'titulo' => 'required|min:6',
+            'categoria' => 'required',
+            'preparacion' => 'required',
+            'ingredientes' => 'required',
+            'imagen' => 'image',
+        ]);
+        //asigando a valores
+        $receta->titulo = $data['titulo'];
+        $receta->categoria_id = $data['categoria'];
+        $receta->preparacion = $data['preparacion'];
+        $receta->ingredientes = $data['ingredientes'];
+
+        if(request('imagen')){
+            //guardar imagen
+        $ruta_imagen = $request['imagen']->store('upload-recetas', 'public');
+
+        //resize imagne
+        $img = Image::make(public_path("storage/$ruta_imagen"))->fit(1000, 550);
+        $img->save();
+
+        $receta->imagen = $ruta_imagen;
+        }
+        //actualizar datos
+        $receta->save();
+
+        //redirect
+
+        return redirect()->route('recetas.index');
     }
 
     /**
@@ -138,6 +172,14 @@ class RecetaController extends Controller
      */
     public function destroy(Receta $receta)
     {
-        //
+        //verificar que es usuario autenticado
+        $this->authorize('delete', $receta);
+
+        //eliminar receta
+
+        $receta->delete();
+
+        return redirect()->route('recetas.index');
+
     }
 }
