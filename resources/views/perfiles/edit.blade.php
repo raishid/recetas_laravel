@@ -9,7 +9,6 @@
 @endsection
 
 @section('content')
-    {{ $perfil }}
     <h1 class="text-center">Editar Mi Perfil</h1>
     <div class="row justify-content-center mt-5">
         <div class="col-md-10 bg-white p-3">
