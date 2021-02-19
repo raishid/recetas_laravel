@@ -28,5 +28,9 @@
                 @endforeach
             </tbody>
         </table>
+        <div class="col-12 mt-4 justify-content-center d-flex">
+            {{ $recetas->links('pagination::bootstrap-4') }}
+        </div>
+
     </div>
 @endsection
