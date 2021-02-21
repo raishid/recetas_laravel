@@ -33,6 +33,9 @@
                 <h2 class="my-3 text-primary">Preparacion</h2>
                 {!! $receta->preparacion !!}
             </div>
+
+            <like-button receta-id="{{ $receta->id }}"></like-button>
+
         </div>
     </article>
 @endsection

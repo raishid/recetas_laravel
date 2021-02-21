@@ -53,7 +53,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    
+
     //relacion de uno a muchos usuario a recetas
 
     public function recetas()
@@ -66,5 +66,12 @@ class User extends Authenticatable
     public function perfil()
     {
         return $this->hasOne(Perfil::class);
+    }
+
+    //recetas que a dado likes
+
+    public function meGusta()
+    {
+        return $this->belongsToMany(Receta::class, 'likes_receta');
     }
 }
