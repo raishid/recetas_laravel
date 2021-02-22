@@ -15,9 +15,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'InicioController@index')->name('inicio.index');
 
 Route::get('/recetas', 'RecetaController@index')->name('recetas.index');
 Route::get('/recetas/create', 'RecetaController@create')->name('recetas.create');
@@ -31,8 +29,14 @@ Route::get('/perfiles/{perfil}', 'PerfilController@show')->name('perfiles.show')
 Route::get('/perfiles/{perfil}/edit', 'PerfilController@edit')->name('perfiles.edit');
 Route::put('/perfiles/{perfil}', 'PerfilController@update')->name('perfiles.update');
 
+//buscador de receta
+Route::get('/buscar', 'RecetaController@search')->name('buscar.show');
+
 //almacernar likes_receta
 Route::post('/recetas/{receta}', 'LikesController@update')->name('likes.update');
+
+//mostrar por categoria
+Route::get('/categoria/{categoriaReceta}', 'CategoriasController@show')->name('categorias.show');
 
 Auth::routes();
 

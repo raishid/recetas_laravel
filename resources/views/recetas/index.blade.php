@@ -32,5 +32,23 @@
             {{ $recetas->links('pagination::bootstrap-4') }}
         </div>
 
+        <h2 class="text-center my-5">Receta que te gustan</h2>
+        <div class="col-md-10 mx-auto bg-white p-3">
+            @if (count($usuario->meGusta) > 0)
+                <ul class="list-group">
+                    @foreach ($usuario->meGusta as $receta)
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <p>{{$receta->titulo}}</p>
+                            <a href="{{ route('recetas.show', $receta->id) }}" class="btn btn-outline-success text-uppercase font-weigth-bold">Ver</a>
+                        </li>
+                    @endforeach
+                </ul>
+            @else
+                <p class="text-center">Aún no tienes recetas Guardadas
+                    <small>Dale me gusta a las recetas y aparecerán aquí.</small></small>
+                </p>
+            @endif
+        </div>
+
     </div>
 @endsection
